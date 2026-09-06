@@ -1,5 +1,8 @@
 if HIS_LOADED and not _G.HIS_DEBUG then return end
 pcall(function() getgenv().HIS_LOADED = true end)
+
+task.wait(1)
+
 if not game:IsLoaded() then game.Loaded:Wait() end
 
 function missing(t, f, fallback)
@@ -1941,11 +1944,12 @@ ViewportTextBox = (function()
 		table.insert(text1,textbox)
 		table.insert(shade2,view)
 		obj.View = view
-		textbox.Changed:Connect(function(prop)
+		-- OPTIMIZED: Commented out to prevent constant UI re-renders
+		--[[ textbox.Changed:Connect(function(prop)
 			if prop == "Text" or prop == "CursorPosition" or prop == "AbsoluteSize" then
 				obj:Update()
 			end
-		end)
+		end) ]] --
 		obj:Update()
 		view.Parent = textbox.Parent
 		textbox.Parent = view
